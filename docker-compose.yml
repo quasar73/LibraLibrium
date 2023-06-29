@@ -1,7 +1,14 @@
 version: '3.4'
 
 services:
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5340:80"
+
   identity.api:
+    container_name: identity-api
     image: ${REGISTRY:-lbr}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
