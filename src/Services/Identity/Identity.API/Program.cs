@@ -38,6 +38,7 @@ public class Program
             .ConfigureWebHostDefaults((web) =>
             {
                 web.CaptureStartupErrors(false)
+                    .UseUrls()
                     .ConfigureKestrel(options =>
                     {
                         var port = configuration.GetValue("PORT", 80);
