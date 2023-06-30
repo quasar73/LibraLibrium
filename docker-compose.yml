@@ -2,10 +2,11 @@ version: '3.4'
 
 services:
   seq:
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - "5340:80"
+    image: datalust/seq:2023.2
+
+  postgres:
+    image: postgres:15.3
+    container_name: postgres
 
   identity.api:
     container_name: identity-api
@@ -13,3 +14,10 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
+
+  catalog.api:
+    container_name: catalog-api
+    image: ${REGISTRY:-lbr}/catalog.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile

@@ -1,4 +1,4 @@
-namespace LibraLibrium.Services.Identity.API;
+namespace LibraLibrium.Services.Catalog.API;
 
 public class Program
 {
@@ -15,6 +15,15 @@ public class Program
         {
             Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
             var host = CreateHostBuilder(configuration, args);
+
+            Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+            host.MigrateDbContext<CatalogContext>((context, services) =>
+            {
+                var env = services.GetService<IWebHostEnvironment>();
+                var logger = services.GetService<ILogger<CatalogContextSeed>>();
+
+                new CatalogContextSeed().SeedAsync(context, env, logger).Wait();
+            });
 
             Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
             host.Run();
@@ -53,7 +62,7 @@ public class Program
             .UseSerilog()
             .Build();
     }
-      
+
 
     private static IConfiguration GetConfiguration()
     {

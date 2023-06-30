@@ -1,0 +1,16 @@
+﻿global using Microsoft.AspNetCore;
+global using Microsoft.AspNetCore.Hosting;
+global using Microsoft.AspNetCore.Server.Kestrel.Core;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.EntityFrameworkCore;
+global using Serilog;
+global using System;
+global using System.Reflection;
+global using System.Net;
+global using LibraLibrium.Services.Catalog.Infrastructure;
+global using LibraLibrium.Services.Catalog.Core.Entities;
+global using LibraLibrium.Services.Catalog.API.Extensions;
+global using LibraLibrium.Services.Catalog.API.Infrastructure;
+global using Polly;
+global using Polly.Retry;
+global using Npgsql;
