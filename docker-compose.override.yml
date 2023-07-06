@@ -26,3 +26,10 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
       - "5101:80"
+
+  books.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "5102:80"

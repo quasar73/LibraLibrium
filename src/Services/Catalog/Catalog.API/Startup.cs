@@ -37,6 +37,7 @@ public static class CustomExtensionMethods
                                             sqlOptions.MigrationsAssembly(typeof(CatalogContext).GetTypeInfo().Assembly.GetName().Name);
                                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
                                         });
+                options.UseInternalServiceProvider(services.BuildServiceProvider());
             });
 
         return services;

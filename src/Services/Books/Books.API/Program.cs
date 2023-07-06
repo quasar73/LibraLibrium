@@ -16,6 +16,15 @@ public class Program
             Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
             var host = CreateHostBuilder(configuration, args);
 
+            Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+            host.MigrateDbContext<BooksContext>((context, services) =>
+            {
+                var env = services.GetService<IWebHostEnvironment>();
+                var logger = services.GetService<ILogger<BooksContextSeed>>();
+
+                new BooksContextSeed().SeedAsync(context, env, logger).Wait();
+            });
+
             Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
             host.Run();
 

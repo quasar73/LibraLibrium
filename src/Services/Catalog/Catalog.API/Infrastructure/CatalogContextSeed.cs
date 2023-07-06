@@ -169,7 +169,7 @@ public class CatalogContextSeed
         string numberOfPagesString = column[Array.IndexOf(headers, "numberofpages")].Trim('"').Trim();
         if (!int.TryParse(numberOfPagesString, NumberStyles.Integer, CultureInfo.InvariantCulture, out int numberOfPages))
         {
-            throw new Exception($"price={numberOfPagesString} is not a valid integer number");
+            throw new Exception($"numberOfPagesString={numberOfPagesString} is not a valid integer number");
         }
 
         var bookSample = new BookSample()
