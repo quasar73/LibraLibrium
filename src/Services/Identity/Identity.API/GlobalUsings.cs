@@ -5,4 +5,6 @@ global using Microsoft.Extensions.Hosting;
 global using Serilog;
 global using System;
 global using System.Net;
-
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;

@@ -11,7 +11,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddCustomDbContext(Configuration);
+        services.AddCustomDbContext(Configuration)
+            .AddCustomHealthCheck(Configuration);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,6 +21,15 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+            endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
         });
     }
 }
@@ -39,6 +49,20 @@ public static class CustomExtensionMethods
                                         });
                 options.UseInternalServiceProvider(services.BuildServiceProvider());
             });
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
+    {
+        var hcBuilder = services.AddHealthChecks();
+
+        hcBuilder
+            .AddCheck("self", () => HealthCheckResult.Healthy())
+            .AddNpgSql(
+                configuration["ConnectionString"],
+                name: "BooksDb-check",
+                tags: new string[] { "booksdb" });
 
         return services;
     }

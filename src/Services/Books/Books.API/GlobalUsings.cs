@@ -13,3 +13,6 @@ global using System.Reflection;
 global using Polly;
 global using Polly.Retry;
 global using Npgsql;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;

@@ -3,28 +3,36 @@ version: '3.4'
 services:
   seq:
     image: datalust/seq:2023.2
+    container_name: seq
 
   postgres:
     image: postgres:15.3
     container_name: postgres
 
   identity.api:
-    container_name: identity-api
     image: ${REGISTRY:-lbr}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: identity-api
     build:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
 
   catalog.api:
-    container_name: catalog-api
     image: ${REGISTRY:-lbr}/catalog.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: catalog-api
     build:
       context: .
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
 
   books.api:
-    container_name: books-api
     image: ${REGISTRY:-lbr}/books.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: books-api
     build:
       context: .
       dockerfile: src/Services/Books/Books.API/Dockerfile
+
+  webstatus:
+    image: ${REGISTRY:-lbr}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: webstatus
+    build:
+      context: .
+      dockerfile: src/Web/WebStatus/Dockerfile
