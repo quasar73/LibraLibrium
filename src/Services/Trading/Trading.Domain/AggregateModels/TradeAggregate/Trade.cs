@@ -16,8 +16,20 @@ public class Trade
     public string ReceiverId => _receiverId;
     private string _receiverId;
 
-    public bool ReceiverAccepted { get; private set; }
-    public bool SenderAccepted { get; private set; }
+    public bool AcceptedByReceiver { get; private set; }
+    public bool AcceptedBySender { get; private set; }
+
+    public bool GenerationClosed { get; private set; }
+
+    public bool Closed { get; private set; }
+
+    protected Trade()
+    {
+        _entries = new List<TradeEntry>();
+        AcceptedByReceiver = false;
+        AcceptedBySender = false;
+        GenerationClosed = false;
+    }
 
     public Trade(DateTime createdAt, DateTime closedAt, string receiverId, string senderId)
     {
@@ -26,12 +38,18 @@ public class Trade
         ClosedAt = closedAt;
         _receiverId = receiverId;
         _senderId = senderId;
-        ReceiverAccepted = false;
-        SenderAccepted = false;
+        AcceptedByReceiver = false;
+        AcceptedBySender = false;
+        GenerationClosed = false;
     }
 
-    public void AddTradeEntry(int bookId, int generation, DateTime createdAt, EntryType type)
+    public void AddTradeEntry(int bookId, int generation, string traderId, DateTime createdAt, EntryType type)
     {
+        if (traderId == null || (traderId != SenderId && traderId != ReceiverId))
+        {
+            throw new TradingDomainException($"Trader with id: {traderId} is not able to do this trade");
+        }
+
         if (_entries is not { Count: 0 })
         {
             var currentGeneration = _entries.Max(entry => entry.Generation);
@@ -40,9 +58,36 @@ public class Trade
             {
                 throw new TradingDomainException($"The generation: {generation} is less then currentGeneration: {currentGeneration}");
             }
+
+            if (_entries.Where(e => e.Generation == currentGeneration).Any(e => e.TraderId != traderId))
+            {
+                throw new TradingDomainException($"Trader with id: {traderId} is not able to add new entries in current generation");
+            }
         }
 
-        var entry = new TradeEntry(bookId, generation, createdAt, type);
+        var entry = new TradeEntry(bookId, generation, traderId, createdAt, type);
         _entries.Add(entry);
+
+        GenerationClosed = false;
+    }
+
+    public void CloseGeneration(string traderId)
+    {
+        if (traderId == null || (traderId != SenderId && traderId != ReceiverId))
+        {
+            throw new TradingDomainException($"Trader with id: {traderId} is not able to do this trade");
+        }
+
+        if (_entries is not { Count: 0 })
+        {
+            var currentGeneration = _entries.Max(entry => entry.Generation);
+
+            if (_entries.Where(e => e.Generation == currentGeneration).Any(e => e.TraderId != traderId))
+            {
+                throw new TradingDomainException($"Trader with id: {traderId} is not able to close current generation");
+            }
+        }
+
+        GenerationClosed = true;
     }
 }
