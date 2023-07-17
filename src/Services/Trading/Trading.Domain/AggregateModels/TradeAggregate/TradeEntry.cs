@@ -1,4 +1,4 @@
-﻿namespace LibraLibrium.Services.Trading.Domain.SeedWork;
+﻿namespace LibraLibrium.Services.Trading.Domain.AggregateModels.TradeAggregate;
 
 public class TradeEntry : Entity
 {
