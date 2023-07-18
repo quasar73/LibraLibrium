@@ -3,16 +3,12 @@
 public class EntryType
     : Enumeration
 {
-    public static EntryType Added = new EntryType(1, nameof(Added).ToLowerInvariant());
-    public static EntryType Removed = new EntryType(2, nameof(Removed).ToLowerInvariant());
+    public static EntryType Added = new(1, nameof(Added).ToLowerInvariant());
+    public static EntryType Removed = new(2, nameof(Removed).ToLowerInvariant());
 
-    public EntryType(int id, string name)
-        : base(id, name)
-    {
-    }
+    public EntryType(int id, string name): base(id, name) { }
 
-    public static IEnumerable<EntryType> List() =>
-        new[] { Added, Removed };
+    public static IEnumerable<EntryType> List() => new[] { Added, Removed };
 
     public static EntryType FromName(string name)
     {

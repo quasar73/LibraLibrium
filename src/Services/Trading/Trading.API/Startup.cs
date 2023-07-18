@@ -1,4 +1,4 @@
-﻿namespace LibraLibrium.Services.Catalog.API;
+﻿namespace LibraLibrium.Services.Trading.API;
 
 public class Startup
 {
@@ -39,12 +39,12 @@ public static class CustomExtensionMethods
     public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddEntityFrameworkNpgsql()
-            .AddDbContext<CatalogContext>(options =>
+            .AddDbContext<TradingContext>(options =>
             {
                 options.UseNpgsql(configuration["ConnectionString"],
                                         npgsqlOptionsAction: sqlOptions =>
                                         {
-                                            sqlOptions.MigrationsAssembly(typeof(CatalogContext).GetTypeInfo().Assembly.GetName().Name);
+                                            sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
                                         });
                 options.UseInternalServiceProvider(services.BuildServiceProvider());
@@ -61,8 +61,8 @@ public static class CustomExtensionMethods
             .AddCheck("self", () => HealthCheckResult.Healthy())
             .AddNpgSql(
                 configuration["ConnectionString"],
-                name: "CatalogDb-check",
-                tags: new string[] { "catalogdb" });
+                name: "TradingDb-check",
+                tags: new string[] { "tradingdb" });
 
         return services;
     }

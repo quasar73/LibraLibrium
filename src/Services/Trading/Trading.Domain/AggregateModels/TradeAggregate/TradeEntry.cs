@@ -2,7 +2,7 @@
 
 public class TradeEntry : Entity
 {
-    public EntryType Type { get; private set; }
+    public EntryType Type { get; private set; } = null!;
     private int _typeId;
 
     public int BookId => _bookId;
@@ -13,7 +13,7 @@ public class TradeEntry : Entity
     public DateTime CreatedAt { get; private set; }
 
     public string TraderId => _traderId;
-    private string _traderId;
+    private string _traderId = null!;
 
     protected TradeEntry() { }
 

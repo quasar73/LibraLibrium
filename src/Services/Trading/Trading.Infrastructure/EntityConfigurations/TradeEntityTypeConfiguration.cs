@@ -7,14 +7,14 @@ public class TradeEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Trade> builder)
     {
-        builder.ToTable("orders", TradingContext.DEFAULT_SCHEMA);
+        builder.ToTable("trades", TradingContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(o => o.Id);
+        builder.HasKey(e => e.Id);
 
-        builder.Ignore(b => b.DomainEvents);
+        builder.Ignore(e => e.DomainEvents);
 
-        builder.Property(o => o.Id)
-            .UseHiLo("tradeseq", TradingContext.DEFAULT_SCHEMA);
+        builder.Property(e => e.Id)
+            .UseHiLo("entryseq", TradingContext.DEFAULT_SCHEMA);
 
         builder
            .Property<string>("_senderId")

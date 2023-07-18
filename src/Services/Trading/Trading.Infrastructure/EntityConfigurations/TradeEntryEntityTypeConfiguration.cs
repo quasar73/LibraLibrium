@@ -7,27 +7,27 @@ public class TradeEntryEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<TradeEntry> builder)
     {
-        builder.ToTable("orders", TradingContext.DEFAULT_SCHEMA);
+        builder.ToTable("entries", TradingContext.DEFAULT_SCHEMA);
 
-        builder.HasKey(o => o.Id);
+        builder.HasKey(t => t.Id);
 
-        builder.Ignore(b => b.DomainEvents);
+        builder.Ignore(t => t.DomainEvents);
 
         builder.Property(o => o.Id)
-            .UseHiLo("tradeseq", TradingContext.DEFAULT_SCHEMA);
+            .UseHiLo("entryseq", TradingContext.DEFAULT_SCHEMA);
 
         builder
             .Property<int>("TradeId")
             .IsRequired();
 
         builder
-           .Property<string>("_typeId")
+           .Property<int>("_typeId")
            .UsePropertyAccessMode(PropertyAccessMode.Field)
            .HasColumnName("TypeId")
            .IsRequired(true);
 
         builder
-           .Property<string>("_bookId")
+           .Property<int>("_bookId")
            .UsePropertyAccessMode(PropertyAccessMode.Field)
            .HasColumnName("BookId")
            .IsRequired(true);
@@ -37,5 +37,15 @@ public class TradeEntryEntityTypeConfiguration
            .UsePropertyAccessMode(PropertyAccessMode.Field)
            .HasColumnName("TraderId")
            .IsRequired(true);
+
+        builder
+            .HasOne<Book>()
+            .WithMany()
+            .IsRequired(false)
+            .HasForeignKey("_bookId");
+
+        builder.HasOne(e => e.Type)
+            .WithMany()
+            .HasForeignKey("_typeId");
     }
 }
