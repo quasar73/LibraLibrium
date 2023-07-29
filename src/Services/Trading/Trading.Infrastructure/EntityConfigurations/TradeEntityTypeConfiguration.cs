@@ -7,7 +7,7 @@ public class TradeEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Trade> builder)
     {
-        builder.ToTable("trades", TradingContext.DEFAULT_SCHEMA);
+        builder.ToTable("Trades", TradingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(e => e.Id);
 

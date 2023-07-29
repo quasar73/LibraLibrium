@@ -21,7 +21,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
                 incrementBy: 10);
 
             migrationBuilder.CreateTable(
-                name: "books",
+                name: "Books",
                 schema: "trading",
                 columns: table => new
                 {
@@ -31,7 +31,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_books", x => x.BookId);
+                    table.PrimaryKey("PK_Books", x => x.BookId);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,7 +48,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "trades",
+                name: "Trades",
                 schema: "trading",
                 columns: table => new
                 {
@@ -64,11 +64,11 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_trades", x => x.Id);
+                    table.PrimaryKey("PK_Trades", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "entries",
+                name: "Entries",
                 schema: "trading",
                 columns: table => new
                 {
@@ -82,44 +82,44 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_entries", x => x.Id);
+                    table.PrimaryKey("PK_Entries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_entries_EntryType_TypeId",
+                        name: "FK_Entries_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "trading",
+                        principalTable: "Books",
+                        principalColumn: "BookId");
+                    table.ForeignKey(
+                        name: "FK_Entries_EntryType_TypeId",
                         column: x => x.TypeId,
                         principalTable: "EntryType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_entries_books_BookId",
-                        column: x => x.BookId,
-                        principalSchema: "trading",
-                        principalTable: "books",
-                        principalColumn: "BookId");
-                    table.ForeignKey(
-                        name: "FK_entries_trades_TradeId",
+                        name: "FK_Entries_Trades_TradeId",
                         column: x => x.TradeId,
                         principalSchema: "trading",
-                        principalTable: "trades",
+                        principalTable: "Trades",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_entries_BookId",
+                name: "IX_Entries_BookId",
                 schema: "trading",
-                table: "entries",
+                table: "Entries",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_entries_TradeId",
+                name: "IX_Entries_TradeId",
                 schema: "trading",
-                table: "entries",
+                table: "Entries",
                 column: "TradeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_entries_TypeId",
+                name: "IX_Entries_TypeId",
                 schema: "trading",
-                table: "entries",
+                table: "Entries",
                 column: "TypeId");
         }
 
@@ -127,18 +127,18 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "entries",
+                name: "Entries",
+                schema: "trading");
+
+            migrationBuilder.DropTable(
+                name: "Books",
                 schema: "trading");
 
             migrationBuilder.DropTable(
                 name: "EntryType");
 
             migrationBuilder.DropTable(
-                name: "books",
-                schema: "trading");
-
-            migrationBuilder.DropTable(
-                name: "trades",
+                name: "Trades",
                 schema: "trading");
 
             migrationBuilder.DropSequence(

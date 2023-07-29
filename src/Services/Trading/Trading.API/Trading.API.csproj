@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Trading.Infrastructure\Trading.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Migrations\" />
+  </ItemGroup>
+
 </Project>

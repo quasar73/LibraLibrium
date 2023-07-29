@@ -1,0 +1,2 @@
+﻿id,city,country,email,name,username,state,securitynumber,normalizedemail,normalizedusername,password
+11111111-1111-1111-1111-111111111111,Minsk,Belarus,demouser@mail.by,Demo User,demouser,Minsk,535,DEMOUSER@MAIL.BY,DEMOUSER,Pass@word1

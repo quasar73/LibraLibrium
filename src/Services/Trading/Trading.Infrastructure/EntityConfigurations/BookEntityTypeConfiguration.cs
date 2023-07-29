@@ -7,7 +7,7 @@ public class BookEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
-        builder.ToTable("books", TradingContext.DEFAULT_SCHEMA);
+        builder.ToTable("Books", TradingContext.DEFAULT_SCHEMA);
 
         builder.HasKey(b => b.BookId);
 

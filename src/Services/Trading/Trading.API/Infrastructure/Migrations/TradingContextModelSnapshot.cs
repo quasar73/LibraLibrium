@@ -40,7 +40,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
 
                     b.HasKey("BookId");
 
-                    b.ToTable("books", "trading");
+                    b.ToTable("Books", "trading");
                 });
 
             modelBuilder.Entity("LibraLibrium.Services.Trading.Domain.AggregateModels.TradeAggregate.EntryType", b =>
@@ -98,7 +98,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("trades", "trading");
+                    b.ToTable("Trades", "trading");
                 });
 
             modelBuilder.Entity("LibraLibrium.Services.Trading.Domain.AggregateModels.TradeAggregate.TradeEntry", b =>
@@ -139,7 +139,7 @@ namespace LibraLibrium.Services.Trading.API.Infrastructure.Migrations
 
                     b.HasIndex("_typeId");
 
-                    b.ToTable("entries", "trading");
+                    b.ToTable("Entries", "trading");
                 });
 
             modelBuilder.Entity("LibraLibrium.Services.Trading.Domain.AggregateModels.TradeAggregate.TradeEntry", b =>

@@ -1,3 +1,8 @@
+using IdentityServer4.EntityFramework.DbContexts;
+using LibraLibrium.Services.Identity.API.Extensions;
+using LibraLibrium.Services.Identity.API.Infrastructure;
+using Microsoft.Extensions.Options;
+
 namespace LibraLibrium.Services.Identity.API;
 
 public class Program
@@ -15,6 +20,20 @@ public class Program
         {
             Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
             var host = CreateHostBuilder(configuration, args);
+
+            Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+            host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
+                .MigrateDbContext<ApplicationDbContext>((context, services) =>
+                {
+                    var env = services.GetService<IWebHostEnvironment>()!;
+                    var logger = services.GetService<ILogger<ApplicationDbContextSeed>>()!;
+
+                    new ApplicationDbContextSeed().SeedAsync(context, env, logger).Wait();
+                })
+                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
+                {
+                    new ConfigurationDbContextSeed().SeedAsync(context, configuration).Wait();
+                });
 
             Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
             host.Run();
