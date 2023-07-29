@@ -1,5 +1,6 @@
 ﻿global using HealthChecks.UI.Client;
 global using LibraLibrium.Services.Trading.API.Extensions;
+global using LibraLibrium.Services.Trading.API.Infrastructure;
 global using LibraLibrium.Services.Trading.Infrastructure;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Server.Kestrel.Core;

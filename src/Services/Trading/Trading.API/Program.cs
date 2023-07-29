@@ -16,14 +16,14 @@ public class Program
             Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
             var host = CreateHostBuilder(configuration, args);
 
-            //Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
-            //host.MigrateDbContext<TradingContext>((context, services) =>
-            //{
-            //    var env = services.GetService<IWebHostEnvironment>();
-            //    var logger = services.GetService<ILogger<TradingContextSeed>>();
+            Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+            host.MigrateDbContext<TradingContext>((context, services) =>
+            {
+                var env = services.GetService<IWebHostEnvironment>()!;
+                var logger = services.GetService<ILogger<TradingContextSeed>>()!;
 
-            //    new TradingContextSeed().SeedAsync(context, env, logger).Wait();
-            //});
+                new TradingContextSeed().SeedAsync(context, env, logger).Wait();
+            });
 
             Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
             host.Run();

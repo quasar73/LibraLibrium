@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace LibraLibrium.Services.Trading.Domain.AggregateModels.BookAggregate;
+﻿namespace LibraLibrium.Services.Trading.Domain.AggregateModels.BookAggregate;
 
 public class Book
     : Entity, IAggregateRoot

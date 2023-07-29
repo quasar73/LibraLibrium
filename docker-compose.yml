@@ -30,6 +30,13 @@ services:
       context: .
       dockerfile: src/Services/Books/Books.API/Dockerfile
 
+  trading.api:
+    image: ${REGISTRY:-lbr}/trading.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: trading-api
+    build:
+      context: .
+      dockerfile: src/Services/Trading/Trading.API/Dockerfile
+
   webstatus:
     image: ${REGISTRY:-lbr}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
     container_name: webstatus
