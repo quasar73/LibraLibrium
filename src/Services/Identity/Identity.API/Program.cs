@@ -1,8 +1,3 @@
-using IdentityServer4.EntityFramework.DbContexts;
-using LibraLibrium.Services.Identity.API.Extensions;
-using LibraLibrium.Services.Identity.API.Infrastructure;
-using Microsoft.Extensions.Options;
-
 namespace LibraLibrium.Services.Identity.API;
 
 public class Program
@@ -91,7 +86,7 @@ public class Program
         var seqServerUrl = configuration["Serilog:SeqServerUrl"];
 
         return new LoggerConfiguration()
-            .MinimumLevel.Verbose()
+            .MinimumLevel.Information()
             .Enrich.WithProperty("ApplicationContext", Program.AppName)
             .Enrich.FromLogContext()
             .WriteTo.Console()

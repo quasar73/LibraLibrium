@@ -1,7 +1,4 @@
-﻿using IdentityServer4.Models;
-using IdentityServer4;
-
-namespace LibraLibrium.Services.Identity.API.Configuration;
+﻿namespace LibraLibrium.Services.Identity.API.Configuration;
 
 public class Config
 {
@@ -11,7 +8,7 @@ public class Config
         {
             new ApiResource("books", "Books Service"),
             new ApiResource("catalog", "Catalog Service"),
-            new ApiResource("trading", "Trading Aggregator"),
+            new ApiResource("trading", "Trading Service"),
         };
     }
 
@@ -21,7 +18,7 @@ public class Config
         {
             new ApiScope("books", "Books Service"),
             new ApiScope("catalog", "Catalog Service"),
-            new ApiScope("trading", "Trading Aggregator"),
+            new ApiScope("trading", "Trading Service"),
         };
     }
 

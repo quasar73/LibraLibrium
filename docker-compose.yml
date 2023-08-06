@@ -43,3 +43,8 @@ services:
     build:
       context: .
       dockerfile: src/Web/WebStatus/Dockerfile
+    depends_on:
+      - identity.api
+      - catalog.api
+      - books.api
+      - trading.api

@@ -1,8 +1,4 @@
-﻿using LibraLibrium.Services.Identity.API.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace LibraLibrium.Services.Identity.API.Infrastructure;
+﻿namespace LibraLibrium.Services.Identity.API.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

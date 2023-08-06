@@ -1,14 +1,4 @@
-﻿using LibraLibrium.Services.Identity.API.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Npgsql;
-using Polly.Retry;
-using Polly;
-using System.IO.Compression;
-using System.Text.RegularExpressions;
-using LibraLibrium.Services.Identity.API.Extensions;
-
-namespace LibraLibrium.Services.Identity.API.Infrastructure;
+﻿namespace LibraLibrium.Services.Identity.API.Infrastructure;
 
 public class ApplicationDbContextSeed
 {

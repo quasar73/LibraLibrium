@@ -1,13 +1,4 @@
-﻿using IdentityServer4.AspNetIdentity;
-using IdentityServer4.Services;
-using LibraLibrium.Services.Identity.API.Entities;
-using LibraLibrium.Services.Identity.API.Infrastructure;
-using LibraLibrium.Services.Identity.API.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-
-namespace LibraLibrium.Services.Identity.API;
+﻿namespace LibraLibrium.Services.Identity.API;
 
 public class Startup
 {
@@ -23,6 +14,8 @@ public class Startup
         services.AddCustomHealthCheck(Configuration)
             .AddCustomDbContext(Configuration)
             .AddCustomIdentity(Configuration);
+
+        services.AddTransient<ILoginService<ApplicationUser>, LoginService>();
 
         services.AddControllers();
         services.AddControllersWithViews();
@@ -44,11 +37,11 @@ public class Startup
         app.UseStaticFiles();
 
         // Make work identity server redirections in Edge and lastest versions of browsers. WARN: Not valid in a production environment.
-        app.Use(async (context, next) =>
-        {
-            context.Response.Headers.Add("Content-Security-Policy", "script-src 'unsafe-inline'");
-            await next();
-        });
+        //app.Use(async (context, next) =>
+        //{
+        //    context.Response.Headers.Add("Content-Security-Policy", "script-src 'unsafe-inline'");
+        //    await next();
+        //});
 
         app.UseForwardedHeaders();
         app.UseIdentityServer();
@@ -79,7 +72,12 @@ public static class CustomExtensionMethods
     public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
     {
         var hcBuilder = services.AddHealthChecks();
-        hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
+        hcBuilder
+            .AddCheck("self", () => HealthCheckResult.Healthy())
+            .AddNpgSql(
+                configuration["ConnectionString"],
+                name: "IdentityDb-check",
+                tags: new string[] { "identitydb" }); ;
 
         return services;
     }

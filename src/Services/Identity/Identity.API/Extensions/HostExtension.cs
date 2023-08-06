@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using Polly;
-
-namespace LibraLibrium.Services.Identity.API.Extensions;
+﻿namespace LibraLibrium.Services.Identity.API.Extensions;
 
 public static class WebHostExtensions
 {

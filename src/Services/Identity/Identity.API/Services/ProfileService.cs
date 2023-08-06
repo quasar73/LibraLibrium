@@ -1,12 +1,4 @@
-﻿using IdentityModel;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using LibraLibrium.Services.Identity.API.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-namespace LibraLibrium.Services.Identity.API.Services;
+﻿namespace LibraLibrium.Services.Identity.API.Services;
 
 public class ProfileService : IProfileService
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace LibraLibrium.Services.Identity.API.Entities;
+﻿namespace LibraLibrium.Services.Identity.API.Entities;
 
 public class ApplicationUser : IdentityUser
 {

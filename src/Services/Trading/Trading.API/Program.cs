@@ -81,7 +81,7 @@ public class Program
         var seqServerUrl = configuration["Serilog:SeqServerUrl"];
 
         return new LoggerConfiguration()
-            .MinimumLevel.Verbose()
+            .MinimumLevel.Information()
             .Enrich.WithProperty("ApplicationContext", Program.AppName)
             .Enrich.FromLogContext()
             .WriteTo.Console()

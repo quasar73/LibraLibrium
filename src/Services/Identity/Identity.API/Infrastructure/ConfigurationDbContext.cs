@@ -1,10 +1,4 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.EntityFramework.Mappers;
-using LibraLibrium.Services.Identity.API.Configuration;
-using Microsoft.EntityFrameworkCore;
-
-namespace LibraLibrium.Services.Identity.API.Infrastructure;
+﻿namespace LibraLibrium.Services.Identity.API.Infrastructure;
 
 public class ConfigurationDbContextSeed
 {
