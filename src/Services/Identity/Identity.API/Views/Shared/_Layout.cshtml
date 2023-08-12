@@ -4,16 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-    @*<meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline'; script-src-elem 'unsafe-inline'">*@
 </head>
 <body>
-    <div>
+    <main>
         @RenderBody()
-        <br /><br />
-    </div>
+    </main>
 
-
-    @*<script src="lib/bootstrap/dist/js/"></script>*@
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     @RenderSection("scripts", required: false)
 </body>
