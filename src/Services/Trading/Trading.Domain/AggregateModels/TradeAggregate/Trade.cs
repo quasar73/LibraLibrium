@@ -8,7 +8,7 @@ public class Trade
 
     public DateTime CreatedAt { get; private set; }
 
-    public DateTime ClosedAt { get; private set; }
+    public DateTime? ClosedAt { get; private set; }
 
     public string SenderId => _senderId;
     private string _senderId;
@@ -23,21 +23,26 @@ public class Trade
 
     public bool Closed { get; private set; }
 
-    protected Trade()
+    private Trade()
     {
         _entries = new List<TradeEntry>();
         AcceptedByReceiver = false;
         AcceptedBySender = false;
         GenerationClosed = false;
+        _senderId = string.Empty;
+        _receiverId = string.Empty;
     }
 
-    public Trade(DateTime createdAt, DateTime closedAt, string receiverId, string senderId)
+    public Trade(DateTime createdAt, string receiverId, string senderId)
     {
+        ArgumentException.ThrowIfNullOrEmpty(receiverId);
+        ArgumentException.ThrowIfNullOrEmpty(senderId);
+
         _entries = new List<TradeEntry>();
-        CreatedAt = createdAt;
-        ClosedAt = closedAt;
         _receiverId = receiverId;
         _senderId = senderId;
+        CreatedAt = createdAt;
+        ClosedAt = null;
         AcceptedByReceiver = false;
         AcceptedBySender = false;
         GenerationClosed = false;
