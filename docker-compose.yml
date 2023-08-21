@@ -37,13 +37,6 @@ services:
       context: .
       dockerfile: src/Services/Trading/Trading.API/Dockerfile
 
-  webspa:
-    image: ${REGISTRY:-lbr}/webspa:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: webspa
-    build:
-      context: .
-      dockerfile: src/Web/WebSPA/Dockerfile
-
   webstatus:
     image: ${REGISTRY:-lbr}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
     container_name: webstatus

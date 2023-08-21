@@ -16,7 +16,7 @@ public class EntryType
 
         if (state == null)
         {
-            throw new TradingDomainException($"Possible values for OrderStatus: {string.Join(",", List().Select(s => s.Name))}");
+            throw new TradingDomainException($"Possible values for EntryType: {string.Join(",", List().Select(s => s.Name))}");
         }
 
         return state;
@@ -28,7 +28,7 @@ public class EntryType
 
         if (state == null)
         {
-            throw new TradingDomainException($"Possible values for OrderStatus: {string.Join(",", List().Select(s => s.Name))}");
+            throw new TradingDomainException($"Possible values for EntryType: {string.Join(",", List().Select(s => s.Name))}");
         }
 
         return state;
