@@ -35,8 +35,15 @@ public class Trade
 
     public Trade(DateTime createdAt, string receiverId, string senderId)
     {
-        ArgumentException.ThrowIfNullOrEmpty(receiverId);
-        ArgumentException.ThrowIfNullOrEmpty(senderId);
+        if (!Guid.TryParse(receiverId, out Guid receiverResult))
+        {
+            throw new ArgumentException("Receiver Id must be the GUID.");
+        }
+
+        if (!Guid.TryParse(senderId, out Guid senderResult))
+        {
+            throw new ArgumentException("Sender Id must be the GUID.");
+        }
 
         _entries = new List<TradeEntry>();
         _receiverId = receiverId;

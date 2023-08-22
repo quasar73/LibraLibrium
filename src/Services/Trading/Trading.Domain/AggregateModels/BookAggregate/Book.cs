@@ -19,10 +19,19 @@ public class Book
         }
     }
 
-    public Book() { }
+    private Book() 
+    {
+        _ownerId = string.Empty;
+        _bookId = 0;
+    }
 
     public Book(string ownerId, int bookId)
     {
+        if (!Guid.TryParse(ownerId, out Guid result))
+        {
+            throw new ArgumentException("Owner Id must be the GUID.");
+        }
+
         _ownerId = ownerId;
         _bookId = bookId;
     }

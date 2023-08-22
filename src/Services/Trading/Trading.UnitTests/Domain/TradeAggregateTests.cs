@@ -19,25 +19,29 @@ public class TradeAggregateTests
         Assert.NotNull(fakeTrade);
     }
 
-    [Fact]
-    public void Invalid_receiver_id()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("identity")]
+    public void Invalid_receiver_id(string receiverId)
     {
         //Arrange    
         var createdAt = new DateTime(2023, 08, 21);
-        var receiverId = "";
         var senderId = Guid.NewGuid().ToString();
 
         //Act - Assert
         Assert.Throws<ArgumentException>(() => new Trade(createdAt, receiverId, senderId));
     }
 
-    [Fact]
-    public void Invalid_sender_id()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("identity")]
+    public void Invalid_sender_id(string senderId)
     {
         //Arrange    
         var createdAt = new DateTime(2023, 08, 21);
         var receiverId = Guid.NewGuid().ToString();
-        var senderId = "";
 
         //Act - Assert
         Assert.Throws<ArgumentException>(() => new Trade(createdAt, receiverId, senderId));
@@ -84,8 +88,9 @@ public class TradeAggregateTests
         var receiverId = Guid.NewGuid().ToString();
         var senderId = Guid.NewGuid().ToString();
         var bookId = 1;
-        var fakeTrade = new Trade(createdAt, receiverId, senderId);
-        fakeTrade.AddTradeEntry(bookId, 1, senderId, createdAt, EntryType.Added);
+        var fakeTrade = new TradeBuilder(createdAt, receiverId, senderId)
+            .AddEntry(bookId, 1, senderId, createdAt, EntryType.Added)
+            .Build();
 
         //Act - Assert
         Assert.Throws<TradingDomainException>(() => fakeTrade.AddTradeEntry(bookId, 0, senderId, createdAt, EntryType.Added));
@@ -99,8 +104,9 @@ public class TradeAggregateTests
         var receiverId = Guid.NewGuid().ToString();
         var senderId = Guid.NewGuid().ToString();
         var bookId = 1;
-        var fakeTrade = new Trade(createdAt, receiverId, senderId);
-        fakeTrade.AddTradeEntry(bookId, 0, senderId, createdAt, EntryType.Added);
+        var fakeTrade = new TradeBuilder(createdAt, receiverId, senderId)
+            .AddEntry(bookId, 0, senderId, createdAt, EntryType.Added)
+            .Build();
 
         //Act 
         fakeTrade.CloseGeneration(senderId);
@@ -118,8 +124,9 @@ public class TradeAggregateTests
         var senderId = Guid.NewGuid().ToString();
         var traderId = Guid.NewGuid().ToString();
         var bookId = 1;
-        var fakeTrade = new Trade(createdAt, receiverId, senderId);
-        fakeTrade.AddTradeEntry(bookId, 0, senderId, createdAt, EntryType.Added);
+        var fakeTrade = new TradeBuilder(createdAt, receiverId, senderId)
+            .AddEntry(bookId, 0, senderId, createdAt, EntryType.Added)
+            .Build();
 
         //Act - Assert
         Assert.Throws<TradingDomainException>(() => fakeTrade.CloseGeneration(traderId));
@@ -133,8 +140,9 @@ public class TradeAggregateTests
         var receiverId = Guid.NewGuid().ToString();
         var senderId = Guid.NewGuid().ToString();
         var bookId = 1;
-        var fakeTrade = new Trade(createdAt, receiverId, senderId);
-        fakeTrade.AddTradeEntry(bookId, 0, senderId, createdAt, EntryType.Added);
+        var fakeTrade = new TradeBuilder(createdAt, receiverId, senderId)
+             .AddEntry(bookId, 0, senderId, createdAt, EntryType.Added)
+             .Build();
 
         //Act - Assert
         Assert.Throws<TradingDomainException>(() => fakeTrade.CloseGeneration(receiverId));
