@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+  seq:
+    image: datalust/seq:2023.2
+    container_name: seq
+
+  postgres:
+    image: postgres:15.3
+    container_name: postgres
+
+  identity.api:
+    image: ${REGISTRY:-lbr}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: identity-api
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+
+  catalog.api:
+    image: ${REGISTRY:-lbr}/catalog.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: catalog-api
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+
+  books.api:
+    image: ${REGISTRY:-lbr}/books.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: books-api
+    build:
+      context: .
+      dockerfile: src/Services/Books/Books.API/Dockerfile
+
+  trading.api:
+    image: ${REGISTRY:-lbr}/trading.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: trading-api
+    build:
+      context: .
+      dockerfile: src/Services/Trading/Trading.API/Dockerfile
+
+  webstatus:
+    image: ${REGISTRY:-lbr}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: webstatus
+    build:
+      context: .
+      dockerfile: src/Web/WebStatus/Dockerfile
+    depends_on:
+      - identity.api
+      - catalog.api
+      - books.api
+      - trading.api

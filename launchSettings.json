@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "None",
+      "composeLaunchServiceName": "webstatus",
+      "serviceActions": {
+        "identity.api": "StartDebugging",
+        "books.api": "StartDebugging",
+        "catalog.api": "StartDebugging",
+        "postgres": "StartWithoutDebugging",
+        "seq": "StartWithoutDebugging",
+        "trading.api": "StartDebugging",
+        "webstatus": "StartDebugging"
+      }
+    }
+  }
+}
