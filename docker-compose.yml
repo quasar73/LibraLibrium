@@ -37,6 +37,13 @@ services:
       context: .
       dockerfile: src/Services/Trading/Trading.API/Dockerfile
 
+  profile.api:
+    image: ${REGISTRY:-lbr}/profile.api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: profile-api
+    build:
+      context: .
+      dockerfile: src/Services/Profile/Profile.API/Dockerfile
+
   webstatus:
     image: ${REGISTRY:-lbr}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
     container_name: webstatus
@@ -48,3 +55,4 @@ services:
       - catalog.api
       - books.api
       - trading.api
+      - profile.api

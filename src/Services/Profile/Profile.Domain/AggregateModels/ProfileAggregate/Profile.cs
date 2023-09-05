@@ -1,8 +1,10 @@
 ﻿namespace LibraLibrium.Services.Profile.Domain.AggregateModels.ProfileAggregate;
 
-public class Profile
+public class UserProfile
     : Entity, IAggregateRoot
 {
+    public string Identity { get; private set; }
+
     public string Name { get; private set; }
 
     public string City { get; private set; }
@@ -13,21 +15,29 @@ public class Profile
 
     public float Rating { get; private set; }
 
+
     private readonly List<Badge> _badges;
     public IReadOnlyCollection<Badge> Badges => _badges;
 
-    private Profile()
+    private UserProfile()
     {
         Rating = 0.5f;
         Name = string.Empty;
         City = string.Empty;
         State = string.Empty;
         Country = string.Empty;
+        Identity = Guid.Empty.ToString();
         _badges = new List<Badge>();
     }
 
-    public Profile(string name, string city, string state, string country)
+    public UserProfile(string identity, string name, string city, string state, string country)
     {
+        if (!Guid.TryParse(identity, out Guid result))
+        {
+            throw new ArgumentException("Identity must be the GUID.");
+        }
+
+        Identity = identity;
         Rating = 0.5f;
         Name = name;
         City = city;

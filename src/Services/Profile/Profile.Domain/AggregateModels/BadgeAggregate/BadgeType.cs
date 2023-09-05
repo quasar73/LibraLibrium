@@ -4,10 +4,12 @@ public class BadgeType
     : Enumeration
 {
     public static BadgeType Trader = new(1, nameof(Trader).ToLowerInvariant());
+    public static BadgeType Developer = new(2, nameof(Developer).ToLowerInvariant());
+    public static BadgeType Creator = new(3, nameof(Creator).ToLowerInvariant());
 
     public BadgeType(int id, string name) : base(id, name) { }
 
-    public static IEnumerable<BadgeType> List() => new[] { Trader };
+    public static IEnumerable<BadgeType> List() => new[] { Trader, Developer, Creator };
 
     public static BadgeType FromName(string name)
     {

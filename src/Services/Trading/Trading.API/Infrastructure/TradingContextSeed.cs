@@ -62,7 +62,7 @@ public class TradingContextSeed
         string bookIdStringified = column[Array.IndexOf(headers, "bookid")].Trim('"').Trim();
         if (!int.TryParse(bookIdStringified, NumberStyles.Integer, CultureInfo.InvariantCulture, out int bookId))
         {
-            throw new Exception($"numberOfPagesString={bookIdStringified} is not a valid integer number");
+            throw new Exception($"bookIdStringified={bookIdStringified} is not a valid integer number");
         }
 
         string ownerId = column[Array.IndexOf(headers, "ownerid")];
