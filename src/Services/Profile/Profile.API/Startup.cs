@@ -1,5 +1,12 @@
-﻿using HealthChecks.UI.Client;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
+using LibraLibrium.Services.Profile.API.Application.Behaviors;
+using LibraLibrium.Services.Profile.API.Infrastructure.Filters;
+using LibraLibrium.Services.Profile.Domain.AggregateModels.ProfileAggregate;
 using LibraLibrium.Services.Profile.Infrastructure;
+using LibraLibrium.Services.Profile.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -18,16 +25,22 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddCustomDbContext(Configuration)
+        services.AddCQRS()
+            .AddCustomMvc()
+            .AddCustomDbContext(Configuration)
             .AddCustomHealthCheck(Configuration);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
+        app.UseCors("CorsPolicy");
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapDefaultControllerRoute();
+            endpoints.MapControllers();
+
             endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
             {
                 Predicate = _ => true,
@@ -43,6 +56,40 @@ public class Startup
 
 public static class CustomExtensionMethods
 {
+    public static IServiceCollection AddCustomMvc(this IServiceCollection services)
+    {
+        services.AddControllers(options =>
+        {
+            options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+        })
+            .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder
+                .SetIsOriginAllowed((host) => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddCQRS(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+
+        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+        services.AddScoped<IProfileRepository, ProfileRepository>();
+
+        return services;
+    }
+
     public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddEntityFrameworkNpgsql()
@@ -67,7 +114,7 @@ public static class CustomExtensionMethods
         hcBuilder
             .AddCheck("self", () => HealthCheckResult.Healthy())
             .AddNpgSql(
-                configuration["ConnectionString"],
+                configuration["ConnectionString"]!,
                 name: "ProfileDb-check",
                 tags: new string[] { "profiledb" });
 
